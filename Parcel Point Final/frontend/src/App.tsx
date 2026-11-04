@@ -1,4 +1,5 @@
 import { AppProvider, useApp, type PageKey } from './lib/store';
+import type { ReactElement } from 'react';
 import { Shell, NAV } from './components/Shell';
 import { Toasts, Empty } from './components/ui';
 import { Lock } from 'lucide-react';
@@ -14,7 +15,7 @@ import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import Portal from './pages/Portal';
 
-const PAGES: Record<Exclude<PageKey, 'portal'>, () => JSX.Element> = { dashboard: Dashboard, receive: Receive, packages: Packages, tracking: Tracking, storage: Storage, recipients: Recipients, claims: Claims, notifications: Notifications, reports: Reports, settings: Settings };
+const PAGES: Record<Exclude<PageKey, 'portal'>, () => ReactElement> = { dashboard: Dashboard, receive: Receive, packages: Packages, tracking: Tracking, storage: Storage, recipients: Recipients, claims: Claims, notifications: Notifications, reports: Reports, settings: Settings };
 
 function Router() {
   const { page, role, go } = useApp();
