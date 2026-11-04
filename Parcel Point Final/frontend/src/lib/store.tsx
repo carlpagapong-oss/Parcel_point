@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react';
 import type { Claim, Notice, Pkg, Role, Slot } from '../types';
-import { initialClaims, initialNotices, initialPackages, recipients, slots } from '../data/mock';
+import { initialClaims, initialNotices, initialPackages, recipients, slots } from '../data/officialData';
 import { nowIso } from './format';
 import { api } from './api';
 

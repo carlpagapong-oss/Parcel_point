@@ -4,7 +4,7 @@ import { useApp } from '../lib/store';
 import { Alert, Badge, Card, PageHeader, Skeleton, StatusBadge, useLoading } from '../components/ui';
 import { fmt, fmtFull } from '../lib/format';
 import type { Pkg } from '../types';
-import { recipients } from '../data/mock';
+import { recipients } from '../data/officialData';
 
 export const Timeline = ({ items }: { items: { title: string; at: string; note: string; tone?: 'blue' | 'teal' }[] }) => (
   <ol className="tl">{items.map((e, i) => <li key={i}><span className={`pt ${e.tone === 'teal' ? 'teal' : ''}`} /><div className="t">{e.title}</div><div className="w">{fmt(e.at)} UTC</div><div className="n">{e.note}</div></li>)}</ol>);
@@ -17,7 +17,7 @@ export function LocationCard({ pkg, dark = true }: { pkg: Pkg; dark?: boolean })
     <div className="row" style={{ marginBottom: 10 }}>{s ? <Warehouse size={18} /> : <MapPinOff size={18} />}<h2>Physical storage location</h2></div>
     {s ? <Badge tone="teal">Staff-recorded assignment</Badge> : <Badge tone="amber">{claimed ? 'Released after claim' : 'Awaiting staff assignment'}</Badge>}
     <div style={{ marginTop: 10 }}>{rows.map(([k, v]) => <div className="kv" key={k}><span>{k}</span><b style={{ fontSize: k === 'Shelf' || k === 'Slot' ? 20 : 14 }}>{v ?? 'Not assigned'}</b></div>)}</div>
-    {s ? <p className="small muted" style={{ marginTop: 8 }}>Assigned {pkg.assignedAt && fmtFull(pkg.assignedAt)}<br />Recorded by {pkg.assignedBy}<br />Demonstration only. Not verified inventory or GPS.</p>
+    {s ? <p className="small muted" style={{ marginTop: 8 }}>Assigned {pkg.assignedAt && fmtFull(pkg.assignedAt)}<br />Recorded by {pkg.assignedBy}<br />Recorded facility data; courier events are not GPS data.</p>
       : <p className="small muted" style={{ marginTop: 8 }}>{claimed ? 'The package was handed over; its slot is free again.' : 'No location is inferred from courier events. Staff assignment is required.'}</p>}
   </section>;
 }
@@ -47,8 +47,8 @@ export default function Tracking() {
       <div className="grid g-main">
         <div className="stack">
           <Card title="Internal facility history" sub="Staff-recorded receiving, storage and readiness · Oldest first"><Timeline items={live.events} /></Card>
-          <Card title="Courier transit history" sub="Sample courier events · Not a live feed · No GPS data"><Timeline items={live.transit.map(t => ({ title: t.title, at: t.at, note: `Source: ${t.source}`, tone: t.tone }))} /></Card>
-          <Alert tone="info" title="Courier locations are not storage assignments">Transit labels describe sample courier milestones only. Building, Floor, Room, Shelf and Slot come exclusively from internal staff assignment records.</Alert>
+          <Card title="Courier transit history" sub="Recorded courier events · Not a live feed · No GPS data"><Timeline items={live.transit.map(t => ({ title: t.title, at: t.at, note: `Source: ${t.source}`, tone: t.tone }))} /></Card>
+          <Alert tone="info" title="Courier locations are not storage assignments">Transit labels describe recorded courier milestones only. Building, Floor, Room, Shelf and Slot come exclusively from internal staff assignment records.</Alert>
         </div>
         <div className="stack">
           <LocationCard pkg={live} />

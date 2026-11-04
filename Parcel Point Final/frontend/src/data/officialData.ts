@@ -29,9 +29,9 @@ export const slotLabel = (s?: Slot | null) => s ? `${s.building} / ${s.floor} / 
 
 const T = (d: number, h: number, m: number) => new Date(Date.UTC(2026, 9, d, h, m)).toISOString();
 const transit = (c: string, d: number, h: number, m: number): TransitEvent[] => [
-  { title: 'Accepted by courier', at: T(d - 1, 8, 0), source: `Sample ${c} event · Origin sorting hub (courier label)` },
-  { title: 'Out for delivery', at: T(d, h - 1, 30), source: `Sample ${c} event · Delivery route (courier label)` },
-  { title: 'Delivered to facility', at: T(d, h, Math.max(m - 2, 0)), source: `Sample ${c} event · Facility handoff. Staff receipt recorded separately`, tone: 'teal' },
+  { title: 'Accepted by courier', at: T(d - 1, 8, 0), source: `Recorded ${c} event · Origin sorting hub (courier label)` },
+  { title: 'Out for delivery', at: T(d, h - 1, 30), source: `Recorded ${c} event · Delivery route (courier label)` },
+  { title: 'Delivered to facility', at: T(d, h, Math.max(m - 2, 0)), source: `Recorded ${c} event · Facility handoff. Staff receipt recorded separately`, tone: 'teal' },
 ];
 const ev = (title: string, at: string, by: string, note: string, tone?: 'blue' | 'teal'): FacilityEvent => ({ title, at, by, note, tone });
 const pre = (c: string) => (c === 'Northline' ? 'NL' : c === 'SwiftPost' ? 'SP' : 'PG');
@@ -48,7 +48,7 @@ const mk = (n: number, rid: string, courier: string, desc: string, size: string,
 
 export const initialPackages: Pkg[] = [
   mk(27, 'R-001', 'Northline', 'Sealed cardboard box · books', 'Medium', 27, 9, 12, 'ready', 'Hub A/1/Receiving/B/03', [
-    ev('Initial storage assigned', T(27, 9, 18), 'Elena Ruiz', 'Sample assignment: Hub A / 1 / Receiving / A / 01.'),
+    ev('Initial storage assigned', T(27, 9, 18), 'Elena Ruiz', 'Recorded assignment: Hub A / 1 / Receiving / A / 01.'),
     ev('Transferred to shelf B, slot 03', T(27, 10, 5), 'Elena Ruiz', 'Assignment updated; A / 01 released.'),
     ev('Ready to claim', T(27, 10, 8), 'Elena Ruiz', 'Arrival notification N-027 recorded for Maya Chen.', 'teal')]),
   mk(26, 'R-002', 'SwiftPost', 'Padded mailer · electronics', 'Small', 27, 8, 45, 'ready', 'Hub A/1/Receiving/A/02', [

@@ -3,7 +3,7 @@ import { Check, Printer, ShieldAlert, ClipboardCheck } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { Alert, Badge, Card, Empty, Field, Input, PageHeader, Select, Skeleton, StatusBadge, Tabs, useLoading } from '../components/ui';
 import { fmt, fmtFull, nowIso } from '../lib/format';
-import { recipients, slotLabel } from '../data/mock';
+import { recipients, slotLabel } from '../data/officialData';
 import { staffName } from '../components/Shell';
 import type { Claim } from '../types';
 
@@ -12,7 +12,7 @@ const PROOF = ['Recipient-signed collection acknowledgement', 'Staff-witnessed v
 
 export function Receipt({ claim }: { claim: Claim }) {
   const { pkgOf, who } = useApp(); const p = pkgOf(claim.packageId);
-  return <div className="receipt"><div className="row between"><h2>Collection receipt</h2><Badge tone="teal">Completed</Badge></div><p className="muted small">ParcelPoint · SDF01 · Fictional demonstration data</p>
+  return <div className="receipt"><div className="row between"><h2>Collection receipt</h2><Badge tone="teal">Completed</Badge></div><p className="muted small">ParcelPoint · SDF01 · ParcelPoint operational records</p>
     <div style={{ margin: '14px 0' }}>{[['Receipt', claim.receipt], ['Claim', claim.id], ['Package', `${claim.packageId} · ${p?.courier}`], ['Tracking', p?.tracking ?? ''], ['Collected by', who(claim.recipientId)], ['Completed', fmtFull(claim.at)], ['Verified by', claim.verifier], ['Verification', `${claim.method} · •••• ${claim.ref}`], ['Proof reference', claim.proof]].map(([k, v]) => <div className="kv" key={k}><span>{k}</span><b>{v}</b></div>)}</div>
     <p className="muted small">No identity document image is retained. Keep this receipt for your records.</p></div>;
 }

@@ -27,15 +27,17 @@ The Vite development server proxies `/api` requests to `http://127.0.0.1:5000`.
 Set `VITE_API_URL` when the API is hosted elsewhere.
 
 ## Structure
-- `src/types.ts` – domain types (Pkg, Claim, Notice, Slot…)
-- `src/data/mock.ts` – consistent sample data (PP-1020…PP-1027, R-001…R-008, Hub A/B storage)
-- `src/lib/store.tsx` – reducer + context (packages, claims, notices, routing, role, toasts)
-- `src/components/ui.tsx` – reusable UI (Card, Badge, Modal, Tabs, Field, charts, skeleton, toasts)
-- `src/components/Shell.tsx` – sidebar, top bar, notification center, profile menu, ⌘K search
-- `src/pages/*` – the 11 pages
+- `frontend/src/types.ts` – domain types (Pkg, Claim, Notice, Slot…)
+- `frontend/src/data/officialData.ts` – official recipient and facility reference data
+- `frontend/src/lib/api.ts` – API client for database-backed records
+- `frontend/src/lib/store.tsx` – reducer + context (packages, claims, notices, routing, role, toasts)
+- `database/schema.sql` – ParcelPoint schema plus the current official seed records
+- `frontend/src/components/ui.tsx` – reusable UI (Card, Badge, Modal, Tabs, Field, charts, skeleton, toasts)
+- `frontend/src/components/Shell.tsx` – sidebar, top bar, notification center, profile menu, ⌘K search
+- `frontend/src/pages/*` – the application pages
 
-## Demo tips
+## Operational tips
 - Switch role from the profile menu (locked modules show a lock icon).
-- Tracking: try PP-1027, PG-2600001022 (unassigned), PP-1024 (claimed), PP-9999 (error).
+- Tracking: use a tracking number from the current database records, or enter an unknown number to see the not-found state.
 - Claims: Package Claims → Process claim → 3-step flow → receipt (updates dashboard, tracking, storage).
 - Recipient Portal: sidebar footer or profile menu (Maya Chen, R-001).

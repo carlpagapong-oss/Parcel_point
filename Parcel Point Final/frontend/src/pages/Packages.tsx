@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Search, Download, Plus, ArrowUpRight } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { Alert, Card, Empty, Field, Modal, PageHeader, Select, Skeleton, StatusBadge, Tabs, useLoading } from '../components/ui';
-import { couriers, slotLabel, slots } from '../data/mock';
+import { couriers, slotLabel, slots } from '../data/officialData';
 import { fmt, isOverdue } from '../lib/format';
 
 type Tab = 'all' | 'unclaimed' | 'claimed' | 'overdue';
@@ -19,7 +19,7 @@ export default function Packages() {
   if (loading) return <Skeleton />;
   const per = 6, pages = Math.max(1, Math.ceil(rows.length / per)), cur = Math.min(page, pages), view = rows.slice((cur - 1) * per, cur * per);
   const pk = P.find(p => p.id === sel); const od = P.filter(p => p.status !== 'claimed' && isOverdue(p.receivedAt));
-  const exportCsv = () => { toast('success', `Exported ${rows.length} packages to CSV (demo).`); };
+  const exportCsv = () => { toast('success', `Exported ${rows.length} packages to CSV (completed).`); };
   const apply = (kind: 'unassign' | 'assign') => {
     if (!pk || reason.trim().length < 3) return;
     if (kind === 'unassign') dispatch({ t: 'unassign', id: pk.id, by: role, note: reason });

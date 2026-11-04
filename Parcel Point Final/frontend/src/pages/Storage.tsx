@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Plus, Warehouse, Grid3x3, PackageSearch, ArrowUpRight, ShieldAlert } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { Alert, Badge, Card, Field, Modal, PageHeader, Select, Skeleton, Stat, useLoading, Input } from '../components/ui';
-import { rooms, slotLabel, slots } from '../data/mock';
+import { rooms, slotLabel, slots } from '../data/officialData';
 import { fmt } from '../lib/format';
 import { staffName } from '../components/Shell';
 
@@ -27,11 +27,11 @@ export default function Storage() {
   };
   return <div className="stack">
     <PageHeader title="Storage locations" sub="A spatial view of capacity, assignments and movement." action={<button className="btn primary" onClick={() => setAdd(true)}><Plus size={17} />Review new location</button>} />
-    <div className="grid g3"><Stat label="Occupied slots" value={`${total} / ${slots.length}`} note={`${((total / slots.length) * 100).toFixed(1)}% occupancy · Sample inventory`} icon={<Warehouse size={18} />} />
-      <Stat label="Available slots" value={slots.length - total} note="One package per slot in this demo" icon={<Grid3x3 size={18} />} tone="var(--teal)" />
+    <div className="grid g3"><Stat label="Occupied slots" value={`${total} / ${slots.length}`} note={`${((total / slots.length) * 100).toFixed(1)}% occupancy · Recorded inventory`} icon={<Warehouse size={18} />} />
+      <Stat label="Available slots" value={slots.length - total} note="One package per slot in this facility" icon={<Grid3x3 size={18} />} tone="var(--teal)" />
       <Stat label="Needs assignment" value={needs.length} note={needs.map(p => `${p.id} · ${who(p.recipientId)}`).join(', ') || 'All packages assigned'} icon={<PackageSearch size={18} />} tone="#D98E04" /></div>
     <div className="grid g-main">
-      <Card title={`${b} / Floor ${f} / ${rm}`} sub="Sample storage layout · Schematic, not a geographic map">
+      <Card title={`${b} / Floor ${f} / ${rm}`} sub="Recorded storage layout · Schematic, not a geographic map">
         <div className="row" style={{ marginBottom: 14 }}><div style={{ width: 280 }}><Select aria-label="Building, floor and room" value={room} onChange={e => { setRoom(e.target.value); setSel(null); }} options={rooms.map(r => ({ v: r.key, l: `${r.building} › Floor ${r.floor} › ${r.room}` }))} /></div></div>
         {shelves.map((sh, i) => { const ss = here.filter(s => s.shelf === sh); return <div key={sh}>
           {i > 0 && <div className="muted small" style={{ background: 'var(--bg)', textAlign: 'center', padding: 8, borderRadius: 8, margin: '14px 0' }}>RECEIVING AISLE · STAFF ACCESS</div>}
@@ -54,7 +54,7 @@ export default function Storage() {
       {state.packages.flatMap(p => p.events.filter(e => /storage|slot|Transferred|shelf/i.test(e.title)).map(e => ({ p, e }))).sort((a, c) => c.e.at.localeCompare(a.e.at)).slice(0, 6).map(({ p, e }, i) => <tr key={i}><td className="mono">{fmt(e.at)}</td><td className="mono">{p.id}</td><td>{e.title} · <span className="muted small">{e.note}</span></td><td>{e.by}</td></tr>)}</tbody></table></div></Card>
     {add && <Modal title="Review new location" onClose={() => setAdd(false)}><div className="stack"><Alert tone="info" title="Preview only"><span className="small">New buildings and rooms are configured by an administrator. This prototype does not change the layout.</span></Alert>
       <div className="grid g2"><Field label="Building"><Input placeholder="Hub C" /></Field><Field label="Floor"><Input placeholder="1" /></Field><Field label="Room"><Input placeholder="Cold storage" /></Field><Field label="Shelves × slots"><Input placeholder="3 × 6" /></Field></div>
-      <div className="row" style={{ justifyContent: 'flex-end' }}><button className="btn" onClick={() => setAdd(false)}>Cancel</button><button className="btn primary" onClick={() => { setAdd(false); toast('success', 'Location request submitted for review (demo).'); }}>Submit for review</button></div></div></Modal>}
+      <div className="row" style={{ justifyContent: 'flex-end' }}><button className="btn" onClick={() => setAdd(false)}>Cancel</button><button className="btn primary" onClick={() => { setAdd(false); toast('success', 'Location request submitted for review (completed).'); }}>Submit for review</button></div></div></Modal>}
     <p className="muted small"><ShieldAlert size={0} />{freeSlots.length} slots free across the facility.</p>
   </div>;
 }

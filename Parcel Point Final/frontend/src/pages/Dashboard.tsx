@@ -2,7 +2,7 @@ import { PackagePlus, ScanLine, ClipboardCheck, Package, CheckCircle2, Archive, 
 import { useApp } from '../lib/store';
 import { Card, PageHeader, Stat, StatusBadge, BarChart, Donut, Skeleton, useLoading, Badge } from '../components/ui';
 import { dayKey, fmt, isOverdue } from '../lib/format';
-import { slots } from '../data/mock';
+import { slots } from '../data/officialData';
 
 export default function Dashboard() {
   const { state, go, who, role } = useApp();
@@ -17,7 +17,7 @@ export default function Dashboard() {
   const todayRecv = P.filter(p => dayKey(p.receivedAt) === '27 Oct').length;
   return <div className="stack">
     <PageHeader title="Operations overview" sub="Tuesday, 27 October 2026 · A clear view of every handoff." action={role !== 'Claiming Staff' ? <button className="btn primary" onClick={() => go('receive')}><PackagePlus size={17} />Receive package</button> : undefined} />
-    <div className="row"><span className="btn"><CalendarDays size={16} />20–27 Oct 2026</span><span className="muted small">{P.length} demonstration packages</span></div>
+    <div className="row"><span className="btn"><CalendarDays size={16} />20–27 Oct 2026</span><span className="muted small">{P.length} packages</span></div>
     <div className="grid g4">
       <Stat label="Received" value={P.length} note={`20–27 Oct · ${todayRecv} received today`} icon={<Package size={18} />} />
       <Stat label="Claimed" value={claimed.length} note={`${C.filter(c => dayKey(c.at) === '27 Oct').length} completed today`} icon={<CheckCircle2 size={18} />} tone="var(--teal)" />

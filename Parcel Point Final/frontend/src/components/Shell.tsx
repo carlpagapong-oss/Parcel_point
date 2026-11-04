@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { LayoutGrid, PackagePlus, Boxes, ScanLine, Warehouse, Users, ClipboardCheck, Bell, BarChart3, Settings, Search, ChevronDown, PanelLeftClose, PanelLeftOpen, Menu, Lock, Package, Smartphone, User } from 'lucide-react';
 import { useApp, type PageKey } from '../lib/store';
-import { recipients } from '../data/mock';
+import { recipients } from '../data/officialData';
 import { fmt } from '../lib/format';
 import { Avatar, Modal, Empty } from './ui';
 import type { Role } from '../types';
@@ -37,7 +37,7 @@ export function Shell({ children }: { children: ReactNode }) {
         <nav className="nav">{NAV.map(n => { const ok = n.roles.includes(role); return (
           <button key={n.key} className={`${page === n.key ? 'on' : ''} ${ok ? '' : 'locked'}`} title={ok ? n.label : `${n.label} (requires permission)`} onClick={() => go(n.key)}>
             <n.icon size={19} /><span className="lbl" style={{ flex: 1 }}>{n.label}</span>{!ok && <Lock size={13} className="lbl" />}</button>); })}</nav>
-        <div className="side-foot"><div className="lbl">DEMO WORKSPACE<br />Fictional records. No live feeds.</div>
+        <div className="side-foot"><div className="lbl">PARCELPOINT WORKSPACE<br />Database-connected operational records.</div>
           <button onClick={() => go('portal')}><Smartphone size={17} /><span className="lbl">Recipient portal</span></button>
           <button onClick={() => setCollapsed(!collapsed)} className="hide-m">{collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}<span className="lbl">Collapse sidebar</span></button></div>
       </aside>
@@ -45,17 +45,17 @@ export function Shell({ children }: { children: ReactNode }) {
         <header className="top">
           <button className="iconbtn menu-btn" aria-label="Open menu" onClick={() => setOpen(!open)}><Menu size={20} /></button>
           <button className="search" onClick={() => setSearch(true)}><Search size={18} /><span>Search packages, recipients, tracking…</span><span className="kbd">⌘ K</span></button>
-          <span className="spacer" /><span className="badge b-amber demo">Demo data</span>
+          <span className="spacer" /><span className="badge b-amber">Operational data</span>
           <div className="rel"><button className="iconbtn" aria-label={`Notifications, ${unread} unread`} onClick={() => setMenu(menu === 'bell' ? null : 'bell')}><Bell size={19} />{unread > 0 && <span className="dot">{unread}</span>}</button>
             {menu === 'bell' && <div className="pop"><div className="row between" style={{ padding: '8px 10px' }}><h3>Notifications</h3><button className="btn link small" onClick={() => dispatch({ t: 'read' })}>Mark all read</button></div>
               {state.notices.slice(0, 4).map(n => <button key={n.id} className="it" onClick={() => go('notifications')}><span className="badge b-blue" style={{ opacity: n.read ? .35 : 1, padding: 0, background: 'none' }} /><span><b className="small">{n.title}</b><br /><span className="muted small">{n.packageId} · {fmt(n.at)}</span></span></button>)}
               <button className="it" style={{ color: 'var(--blue)', fontWeight: 600 }} onClick={() => go('notifications')}>View all notifications</button></div>}</div>
           <div className="rel"><button className="me" onClick={() => setMenu(menu === 'me' ? null : 'me')} aria-haspopup="menu"><Avatar name={user} /><span className="meta"><b className="small">{user}</b><br /><span className="muted small">{role}</span></span><ChevronDown size={15} className="muted" /></button>
-            {menu === 'me' && <div className="pop" style={{ width: 250 }} role="menu"><div className="muted small" style={{ padding: '8px 10px' }}>Switch demo role</div>
+            {menu === 'me' && <div className="pop" style={{ width: 250 }} role="menu"><div className="muted small" style={{ padding: '8px 10px' }}>Switch role</div>
               {(Object.keys(USER) as Role[]).map(r => <button key={r} className="it" role="menuitem" onClick={() => { setRole(r); setMenu(null); }}><User size={16} /><span style={{ flex: 1 }}>{r}</span>{role === r && <span className="badge b-teal">Active</span>}</button>)}
               <button className="it" onClick={() => go('portal')}><Smartphone size={16} />Open recipient portal</button><button className="it" onClick={() => go('settings')}><Settings size={16} />Settings</button></div>}</div>
         </header>
-        <main className="content page-fade" key={page}>{children}<div className="foot"><span>ParcelPoint / SDF01 · Fictional demonstration data</span><span>27 Oct 2026 · 11:00 UTC</span></div></main>
+        <main className="content page-fade" key={page}>{children}<div className="foot"><span>ParcelPoint / SDF01 · ParcelPoint operational records</span><span>27 Oct 2026 · 11:00 UTC</span></div></main>
       </div>
       <GlobalSearch />
     </div>

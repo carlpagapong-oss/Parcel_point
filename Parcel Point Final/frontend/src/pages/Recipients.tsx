@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, Mail, Phone, Home } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { Avatar, Badge, Card, Empty, PageHeader, Skeleton, StatusBadge, Tabs, Toggle, useLoading } from '../components/ui';
-import { recipients } from '../data/mock';
+import { recipients } from '../data/officialData';
 import { fmt } from '../lib/format';
 
 export default function Recipients() {

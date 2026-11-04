@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { CheckCircle2, MapPin } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { Alert, Card, Field, Input, PageHeader, Select, Badge } from '../components/ui';
-import { couriers, recipients, rooms, sizes, slotLabel, slots } from '../data/mock';
+import { couriers, recipients, rooms, sizes, slotLabel, slots } from '../data/officialData';
 import { nowIso } from '../lib/format';
 import type { Pkg } from '../types';
 import { staffName } from '../components/Shell';
@@ -31,7 +31,7 @@ export default function Receive() {
     const pkg: Pkg = { id: next, tracking: f.tracking.trim(), recipientId: f.recipient, courier: f.courier, description: f.description.trim(), size: f.size, receivedAt: at, status: sid ? 'ready' : 'unassigned', slotId: sid, assignedAt: sid ? at : undefined, assignedBy: sid ? by : undefined,
       noticeId: sid ? `N-0${state.notices.length + 22}` : undefined,
       events: [{ title: 'Received at facility', at, by, note: `${next} registered by receiving staff.` }, ...(sid ? [{ title: 'Ready to claim', at, by, note: `Stored at ${slotLabel(slots.find(s => s.id === sid))}.`, tone: 'teal' as const }] : [])],
-      transit: [{ title: 'Delivered to facility', at, source: `Sample ${f.courier} event · Facility handoff. Staff receipt recorded separately`, tone: 'teal' }] };
+      transit: [{ title: 'Delivered to facility', at, source: `Recorded ${f.courier} event · Facility handoff. Staff receipt recorded separately`, tone: 'teal' }] };
     dispatch({ t: 'receive', pkg, notice: sid ? { id: pkg.noticeId!, kind: 'Arrival', title: 'Your package is ready', body: `${next} is ready for collection.`, at, recipientId: f.recipient, packageId: next, read: false } : undefined });
     toast('success', `${next} registered${sid ? ' and stored' : ' · awaiting assignment'}.`); setDone(pkg); setF(blank);
   };

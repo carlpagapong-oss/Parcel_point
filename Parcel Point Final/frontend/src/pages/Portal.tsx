@@ -5,7 +5,7 @@ import { Badge, Card, Empty, StatusBadge, useLoading, Skeleton } from '../compon
 import { Timeline } from './Tracking';
 import { Receipt } from './Claims';
 import { fmt, fmtFull } from '../lib/format';
-import { slotLabel } from '../data/mock';
+import { slotLabel } from '../data/officialData';
 
 export default function Portal() {
   const { state, go, slotOf, dispatch } = useApp(); const loading = useLoading('portal');
@@ -32,7 +32,7 @@ export default function Portal() {
             <Card title="Before you collect">{['Bring an identity document', `Give staff package ID ${ready[0]?.id ?? ''}`, 'Review and acknowledge the handoff'].map((t, i) => <div key={t} className="row" style={{ padding: '5px 0' }}><Badge tone="blue">{i + 1}</Badge>{t}</div>)}<p className="muted small" style={{ marginTop: 8 }}>No ID images are stored.</p></Card></div></div></>}
       {tab === 'trk' && (cur ? <div className="stack"><div className="row">{mine.map(p => <button key={p.id} className={`btn sm ${cur.id === p.id ? 'primary' : ''}`} onClick={() => setSel(p.id)}>{p.id}</button>)}</div>
         <Card title="Where is my package?" sub={`${cur.id} · ${cur.tracking}`}><div className="alert info" style={{ marginBottom: 16 }}><Warehouse size={18} style={{ flex: 'none' }} /><div><b>Physical storage location</b><span className="small">{cur.slotId ? slotLabel(slotOf(cur.slotId)) : cur.status === 'claimed' ? 'Collected. No longer in storage.' : 'Awaiting staff assignment'}</span></div></div>
-          <h3 style={{ marginBottom: 10 }}>Facility history</h3><Timeline items={cur.events} /><h3 style={{ margin: '6px 0 10px' }}>Courier transit (sample)</h3><Timeline items={cur.transit.map(t => ({ title: t.title, at: t.at, note: t.source, tone: t.tone }))} /></Card></div> : <Card><Empty title="No package selected" /></Card>)}
+          <h3 style={{ marginBottom: 10 }}>Facility history</h3><Timeline items={cur.events} /><h3 style={{ margin: '6px 0 10px' }}>Courier transit</h3><Timeline items={cur.transit.map(t => ({ title: t.title, at: t.at, note: t.source, tone: t.tone }))} /></Card></div> : <Card><Empty title="No package selected" /></Card>)}
       {tab === 'nt' && <Card flush title="My notifications">{nts.length === 0 ? <Empty title="No notifications" /> : nts.map(n => <div key={n.id} className="row between" style={{ padding: '14px 20px', borderTop: '1px solid var(--line)' }}><div><b>{n.title}</b><p className="muted small">{n.body} · {fmt(n.at)} UTC</p></div>{!n.read && <button className="btn sm" onClick={() => dispatch({ t: 'read', id: n.id })}>Mark read</button>}</div>)}</Card>}
       <p className="muted small">Recipient access · Own packages, tracking, receipts and notifications only. No administrative directories or storage controls.</p></div></div></div>;
 }
