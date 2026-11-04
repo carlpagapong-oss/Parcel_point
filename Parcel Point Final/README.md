@@ -1,11 +1,30 @@
-# ParcelPoint – Frontend Prototype (SDF01 · OOP)
+# ParcelPoint
 
-Frontend only: React 18 + TypeScript + Vite + lucide-react. No backend, database connection, API or auth.
-All data is mock data held in local React state (`src/data/mock.ts`, `src/lib/store.tsx`). A standalone MySQL schema is provided at `database/schema.sql`; it is not connected to the frontend.
+ParcelPoint uses a React/Vite frontend and a Flask/MySQL API. The frontend is in
+`frontend/`; the API is in `backend/`.
 
-    npm install
-    npm run dev      # http://localhost:5173
-    npm run build
+## Run locally
+
+1. Make sure MySQL is running on `127.0.0.1:3306` with the `root` account.
+2. Set the database password in the shell; do not commit it:
+
+       $env:DB_PASSWORD = "your-password"
+
+3. Install and start the API:
+
+       cd backend
+       python -m pip install -r requirements.txt
+       python server.py
+
+   The API creates the `parcelpoint` database and its facility tables on startup.
+4. In another terminal, start the frontend:
+
+       cd frontend
+       npm install
+       npm run dev
+
+The Vite development server proxies `/api` requests to `http://127.0.0.1:5000`.
+Set `VITE_API_URL` when the API is hosted elsewhere.
 
 ## Structure
 - `src/types.ts` – domain types (Pkg, Claim, Notice, Slot…)
